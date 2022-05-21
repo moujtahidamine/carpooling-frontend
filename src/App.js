@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Router, Switch, Route, Link } from "react-router-dom";
 
@@ -12,49 +12,23 @@ import Profile from "./components/Profile";
 import BoardUser from "./components/BoardUser";
 import BoardAdmin from "./components/BoardAdmin";
 
+import {
+  AnnoncesList
+} from "./pages"
+
 import { logout } from "./actions/auth";
-import { clearMessage } from "./actions/message";
-
 import { history } from "./helpers/history";
-
-// import AuthVerify from "./common/AuthVerify";
-import EventBus from "./common/EventBus";
 
 const App = () => {
 
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [showAdminBoard,] = useState(false);
 
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    history.listen((location) => {
-      dispatch(clearMessage()); // clear message when changing location
-    });
-  }, [dispatch]);
-
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
-
-  useEffect(() => {
-
-    console.log("currentUser", currentUser)
-
-    // if (currentUser) {
-    //   setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
-    // } else {
-    //   setShowAdminBoard(false);
-    // }
-
-    EventBus.on("logout", () => {
-      logOut();
-    });
-
-    return () => {
-      EventBus.remove("logout");
-    };
-  }, [currentUser, logOut]);
 
   return (
     <Router history={history}>
@@ -73,7 +47,7 @@ const App = () => {
             {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
-                  Admin Board
+                  Administration
                 </Link>
               </li>
             )}
@@ -81,7 +55,7 @@ const App = () => {
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
-                  User
+                  Mon espace
                 </Link>
               </li>
             )}
@@ -96,7 +70,7 @@ const App = () => {
               </li>
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={logOut}>
-                  LogOut
+                  Deconnexion
                 </a>
               </li>
             </div>
@@ -104,7 +78,7 @@ const App = () => {
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link to={"/login"} className="nav-link">
-                  Login
+                  Se connecter
                 </Link>
               </li>
 
@@ -125,6 +99,8 @@ const App = () => {
             <Route exact path="/profile" component={Profile} />
             <Route path="/user" component={BoardUser} />
             <Route path="/admin" component={BoardAdmin} />
+
+            <Route path="/annonces" component={AnnoncesList} />
           </Switch>
         </div>
 

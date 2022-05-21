@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../constants";
 
-const register = (data) => {
+const signup = (data) => {
   return axios.post(API_URL + "/register", data);
 };
 
@@ -9,8 +9,8 @@ const login = (data) => {
   return axios
     .post(API_URL + "/login", data)
     .then((response) => {
-      console.log(response.data)
-      if (response.data.access_token) {
+      console.log(response)
+      if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 
@@ -23,7 +23,7 @@ const logout = () => {
 };
 
 export default {
-  register,
+  signup,
   login,
   logout,
 };
