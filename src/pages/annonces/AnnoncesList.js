@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import "../../styles/AnnoncesList.css";
 
 function AnnoncesList(props) {
 
+    const { user: currentUser } = useSelector((state) => state.auth);
     const [data, setData] = useState([]);
 
     useEffect(() => {
         setData([{}, {}, {}, {}, {}, {}, {}, {}]);
     }, []);
 
+    if (!currentUser) {
+      return <Redirect to="/login" />;
+    }
+
     return (
         <div className="container rounded bg-white mt-5 mb-5">
             <div className="row">
-                <div className='col-md-12'>
+                <div className='col-md-12 d-flex justify-content-between'>
                     <h2>Liste des annonces :</h2>
+                    <button className='btn btn-primary'>Nouveau trajet</button>
                 </div>
                 {
-                    data.map(item => (
-                        <div className="col-md-4">
+                    data.map((item, index) => (
+                        <div className="col-md-4" key={index}>
                             <div className="mt-2 d-flex">
                                 <div className="card p-4 mt-3">
                                     <div className="first">
