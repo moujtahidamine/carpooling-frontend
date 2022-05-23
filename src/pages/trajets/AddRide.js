@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { cities } from "../../data";
-// import axios from "axios";
-// import { API_URL } from "../../constants";
+import axios from "axios";
+import { API_URL } from "../../constants";
 
 const Addride = () => {
 
@@ -14,7 +14,7 @@ const Addride = () => {
     const onSubmit = (data) => {
 
         const request = {
-            userId: currentUser.user.id,
+            // userId: currentUser.user.id,
             villeDepart: data.villeDepart,
             villeArrive: data.villeArrive,
             dateDepart: data.dateDepart,
@@ -25,9 +25,9 @@ const Addride = () => {
 
         console.log("request", request);
 
-        // axios.post(API_URL + "/trajets", { request })
-        //     .then(resp => console.log(resp.data))
-        //     .catch(err => console.log(err))
+        axios.post(API_URL + "/trajets", request)
+            .then(resp => console.log(resp.data))
+            .catch(err => console.log(err))
     }
 
     if (!currentUser) {

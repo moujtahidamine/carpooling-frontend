@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import "../../styles/RidesList.css";
 
+import axios from "axios";
+import { API_URL } from "../../constants";
+
 const trajets = [
     {
         id:1,
@@ -47,15 +50,26 @@ function RidesList(props) {
 
     const { user: currentUser } = useSelector((state) => state.auth);
     const [data, setData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        setData(trajets);
+        // setData(trajets);
+
+        axios.get(API_URL+"/trajets")
+        .then(resp => {
+            setData(resp.data);
+            setLoading(false);
+        })
+        .catch(err => {
+            alert("Erreur");
+        })
     }, []);
 
     if (!currentUser) {
       return <Redirect to="/login" />;
     }
 
+    if(isLoading) return "Chargement..."
     return (
         <div className="container rounded bg-white mt-5 mb-5">
             <div className="row">
