@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { cities } from "../../data";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../constants";
 
@@ -10,7 +11,7 @@ const Addride = () => {
 
     const { register, handleSubmit } = useForm();
     const { user: currentUser } = useSelector((state) => state.auth);
-
+    const history = useHistory();
     const onSubmit = (data) => {
 
         const request = {
@@ -26,7 +27,10 @@ const Addride = () => {
         console.log("request", request);
 
         axios.post(API_URL + "/trajets", request)
-            .then(resp => console.log(resp.data))
+            .then(resp => {
+                console.log(resp.data);
+                history.push("/trajets")
+            })
             .catch(err => console.log(err))
     }
 
