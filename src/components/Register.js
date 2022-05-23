@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 import { signup } from "../actions/auth";
 
@@ -12,6 +13,8 @@ const Register = () => {
 
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
+
+  const history = useHistory();
 
   const onSubmit = (data) => {
 
@@ -27,6 +30,8 @@ const Register = () => {
     dispatch(signup(request))
       .then(() => {
         setSuccessful(true);
+        history.push("/login");
+
       })
       .catch(() => {
         setSuccessful(false);

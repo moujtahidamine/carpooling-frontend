@@ -13,7 +13,9 @@ import BoardUser from "./components/BoardUser";
 import BoardAdmin from "./components/BoardAdmin";
 
 import {
-  AnnoncesList
+  RidesList,
+  AddRide,
+  
 } from "./pages"
 
 import { logout } from "./actions/auth";
@@ -54,8 +56,8 @@ const App = () => {
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/annonces"} className="nav-link">
-                  Mon espace
+                <Link to={"/trajets"} className="nav-link">
+                  Trajets
                 </Link>
               </li>
             )}
@@ -100,7 +102,8 @@ const App = () => {
             <Route path="/user" component={BoardUser} />
             <Route path="/admin" component={BoardAdmin} />
 
-            <Route path="/annonces" component={AnnoncesList} />
+            <Route exact path="/trajets" component={RidesList} />
+            <Route path="/trajets/add" component={AddRide} />
           </Switch>
         </div>
 

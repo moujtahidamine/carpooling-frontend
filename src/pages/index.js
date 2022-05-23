@@ -1,5 +1,6 @@
-import {AnnoncesList, } from "./annonces";
+import {RidesList, AddRide } from "./trajets";
 
 export {
-    AnnoncesList
+    RidesList,
+    AddRide,   
 }
