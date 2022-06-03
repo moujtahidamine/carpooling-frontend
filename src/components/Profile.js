@@ -2,8 +2,6 @@ import React from "react";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
-import "../styles/profile.css";
-
 const Profile = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
 

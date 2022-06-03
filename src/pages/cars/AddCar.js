@@ -7,26 +7,21 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../constants";
 
-const AddRide = () => {
+const AddCar = () => {
 
     const { register, handleSubmit } = useForm();
     const { user: currentUser } = useSelector((state) => state.auth);
     const history = useHistory();
+
     const onSubmit = (data) => {
 
         const request = {
-            // userId: currentUser.user.id,
-            villeDepart: data.villeDepart,
-            villeArrive: data.villeArrive,
-            dateDepart: data.dateDepart,
-            prix: Number(data.prix),
-            nbPlace: Number(data.nbPlace),
-
+            
         }
 
         console.log("request", request);
 
-        axios.post(API_URL + "/trajets", request)
+        axios.post(API_URL + "/cars", request)
             .then(resp => {
                 console.log(resp.data);
                 history.push("/trajets")
@@ -46,12 +41,12 @@ const AddRide = () => {
                     <div className="col-md-6">
                         <div className="p-3 py-5">
                             <div className="d-flex justify-content-between align-items-center mb-3">
-                                <h2 className="text-right">Nouveau trajet</h2>
+                                <h2 className="text-right">Nouvelle voiture</h2>
                             </div>
                             <div className="row mt-3">
 
                                 <div className="col-md-12">
-                                    <label className="labels">Nom du conducteur</label>
+                                    <label className="labels">Model</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -128,4 +123,4 @@ const AddRide = () => {
     );
 };
 
-export default AddRide;
+export default AddCar;

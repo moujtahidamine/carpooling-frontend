@@ -15,11 +15,16 @@ import BoardAdmin from "./components/BoardAdmin";
 import {
   RidesList,
   AddRide,
-  
+
 } from "./pages"
 
 import { logout } from "./actions/auth";
 import { history } from "./helpers/history";
+import { MyRideDetail, MyRides } from "./pages/trajets";
+import { CarDetail, MyCars, AddCar } from "./pages/cars";
+
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+
 
 const App = () => {
 
@@ -41,7 +46,7 @@ const App = () => {
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
+              <Link to={"/accueil"} className="nav-link">
                 Accueil
               </Link>
             </li>
@@ -57,7 +62,7 @@ const App = () => {
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/trajets"} className="nav-link">
-                  Trajets
+                  Tous les trajets
                 </Link>
               </li>
             )}
@@ -65,6 +70,16 @@ const App = () => {
 
           {currentUser ? (
             <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/mes-voitures"} className="nav-link">
+                  Mes voitures
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/mes-trajets"} className="nav-link">
+                  Mes Trajets
+                </Link>
+              </li>
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   {currentUser.user.name}
@@ -95,7 +110,7 @@ const App = () => {
 
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path={["/", "/accueil"]} component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
@@ -103,7 +118,15 @@ const App = () => {
             <Route path="/admin" component={BoardAdmin} />
 
             <Route exact path="/trajets" component={RidesList} />
-            <Route path="/trajets/add" component={AddRide} />
+            
+            <Route path="/trajets/ajout" component={AddRide} />
+
+            <Route exact path="/mes-trajets" component={MyRides} />
+            <Route path="/mes-trajets/:id" component={MyRideDetail} />
+
+            <Route exact path="/mes-voitures" component={MyCars} />
+            <Route path="/mes-voitures/ajout" component={AddCar} />
+            <Route path="/mes-voitures/details" component={CarDetail} />
           </Switch>
         </div>
 
