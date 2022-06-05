@@ -24,7 +24,7 @@ function MyCars(props) {
             .catch(err => {
                 alert("Erreur");
             })
-    }, []);
+    }, [currentUser.user.id]);
 
     if(loading) return "Chargement...";
 

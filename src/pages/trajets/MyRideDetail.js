@@ -12,7 +12,7 @@ import { Modal, } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 
-const {confirm} = Modal;
+const { confirm } = Modal;
 
 // const trajets = [
 //     {
@@ -55,32 +55,32 @@ const {confirm} = Modal;
 
 const demandes = [
   {
-    id:1,
-    contact:"+212 676 77 88 91",
-    nom:"Ali HJK"
+    id: 1,
+    contact: "+212 676 77 88 91",
+    nom: "Ali HJK"
   },
   {
-    id:2,
-    contact:"+212 698 34 21 22",
-    nom:"Samira ABC"
+    id: 2,
+    contact: "+212 698 34 21 22",
+    nom: "Samira ABC"
   },
   {
-    id:3,
-    contact:"+212 661 31 88 91",
-    nom:"Ahmad XYZ"
+    id: 3,
+    contact: "+212 661 31 88 91",
+    nom: "Ahmad XYZ"
   },
   {
-    id:4,
-    contact:"+212 645 77 12 91",
-    nom:"Ali OUY"
+    id: 4,
+    contact: "+212 645 77 12 91",
+    nom: "Ali OUY"
   },
-  
+
 ];
 
 function MyRideDetail(props) {
 
   const { user: currentUser } = useSelector((state) => state.auth);
-  const [id, ] = useState(props.match.params.id);
+  const [id,] = useState(props.match.params.id);
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
@@ -89,14 +89,16 @@ function MyRideDetail(props) {
   useEffect(() => {
 
     axios.get(API_URL + "/trajets/" + id)
-    .then(resp => {
-      console.log(resp.data);
-      setData(resp.data);
-      setLoading(false);
-    })
-    .catch(err => {
-      alert("Erreur...");
-    })
+      .then(resp => {
+        
+        console.log("trajet", resp.data);
+
+        setData(resp.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        alert("Erreur...");
+      })
 
   }, [id]);
 
@@ -105,26 +107,52 @@ function MyRideDetail(props) {
       title: 'Voulez-vous vraiment annuler ce trajet?',
       icon: <ExclamationCircleOutlined />,
       content: null,
-  
+
       onOk() {
         return new Promise((resolve, reject) => {
-        
-          axios.delete(API_URL+"/trajets/"+idTrajet)
-          .then(resp => {
-            history.push("/mes-trajets");
-            resolve();
-          })
-          .catch(err => {
-            console.log(err);
-            reject();
-          })
-          
+
+          axios.delete(API_URL + "/trajets/" + idTrajet)
+            .then(resp => {
+              history.push("/mes-trajets");
+              resolve();
+            })
+            .catch(err => {
+              console.log(err);
+              reject();
+            })
+
         }).catch(() => console.log('Oops errors!'));
       },
-  
-      onCancel() {},
+
+      onCancel() { },
     });
-};
+  };
+
+  const showPromiseConfirmAcceptance = (idUser, idTrajet) => {
+    confirm({
+      title: 'Voulez-vous vraiment accepter cette demande?',
+      icon: <ExclamationCircleOutlined />,
+      content: null,
+
+      onOk() {
+        return new Promise((resolve, reject) => {
+
+          axios.get(API_URL+"/user/"+idUser+"/trajet/"+idTrajet+"/accept")
+            .then(resp => {
+              history.push("/mes-trajets");
+              resolve();
+            })
+            .catch(err => {
+              console.log(err);
+              reject();
+            })
+
+        }).catch(() => console.log('Oops errors!'));
+      },
+
+      onCancel() { },
+    });
+  };
 
   if (!currentUser) {
     return <Redirect to="/login" />;
@@ -174,7 +202,7 @@ function MyRideDetail(props) {
                     <hr className="line-color" />
 
                     <div className='d-flex justify-content-between'>
-                      <h6>{"Voiture : "+data.car.marque+" - "+data.car.matricule}</h6>
+                      <h6>{"Voiture : " + data.car.marque + " - " + data.car.matricule}</h6>
                       <h6>{data.car.nbPlace + " places"}</h6>
                     </div>
 
@@ -183,18 +211,29 @@ function MyRideDetail(props) {
                     <div className=''>
 
                       <h5 className='d-block'>Liste des demandes :</h5>
-                      <table className="table table-striped" style={{width:"50%"}}>
+                      <table className="table table-striped" style={{ width: "100%" }}>
                         <tbody>
                           {
-                            demandes.map( d => (
+                            data.demandes.map(d => (
                               <tr key={d.id}>
                                 <td width="5%">{d.id}</td>
-                                <td  width="35%"> <FaMobileAlt /> {d.contact}</td>
-                                <td  width="30%"><FaUser /> {d.nom}</td>
-                                <td  width="30%">
-                                  <button className='btn btn-success'>
-                                    Accepter
-                                  </button>
+                                <td width="40%"> <FaMobileAlt /> {d.email}</td>
+                                <td width="35%"><FaUser /> {d.name}</td>
+                                <td width="20%">
+                                  {
+                                    d.pivot.acceptance === '1' 
+                                    ?(
+                                      <p style={{color:'green'}}>Accepté</p>
+                                    )
+                                    :(
+                                      <button
+                                        className='btn btn-success'
+                                        onClick={() => showPromiseConfirmAcceptance(d.id, data.trajet.id)}
+                                      >
+                                        Accepter
+                                      </button>
+                                    )
+                                  }
                                 </td>
                               </tr>
                             ))
@@ -205,7 +244,7 @@ function MyRideDetail(props) {
                     </div>
 
                     <div className="third mt-4">
-                      <button onClick={()=>showPromiseConfirm(data.trajet.id)} className="btn btn-success btn-block">
+                      <button onClick={() => showPromiseConfirm(data.trajet.id)} className="btn btn-success btn-block">
                         <i className="fa fa-clock-o"></i>
                         Annuler le trajet
                       </button>
@@ -215,7 +254,7 @@ function MyRideDetail(props) {
               </div>
             )
             : (
-              <div className='col-md-12'>
+              <div className='col-md-12 d-flex justify-content-between'>
                 <p>Liste vide...</p>
               </div>
             )

@@ -47,7 +47,7 @@ const AddRide = () => {
                 setLoading(false);
             })
             .catch(err => setLoading(false))
-    }, []);
+    }, [currentUser.user.id]);
 
     if (!currentUser) {
         return <Redirect to="/login" />;

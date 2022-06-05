@@ -12,8 +12,9 @@ import { RiStarSLine, RiStarSFill } from "react-icons/ri";
 
 import { Modal, } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 
-const {confirm} = Modal;
+const { confirm } = Modal;
 
 // const trajets = [
 //     {
@@ -60,23 +61,28 @@ function RidesList(props) {
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
+    const history = useHistory();
+
     const showPromiseConfirm = (idTrajet) => {
         confirm({
-          title: 'Voulez-vous confirmer la réservation?',
-          icon: <ExclamationCircleOutlined />,
-          content: 'Lorsque vous confirmez votre demande, bla bla bla bla',
-      
-          onOk() {
-            return new Promise((resolve, reject) => {
-            
-              axios.get(API_URL+"/user/"+currentUser.user.id+"/trajet/"+idTrajet)
-              .then(resp => resolve())
-              .catch(err => reject())
+            title: 'Voulez-vous confirmer la réservation?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'Lorsque vous confirmez votre demande, bla bla bla bla',
 
-            }).catch(() => console.log('Oops errors!'));
-          },
-      
-          onCancel() {},
+            onOk() {
+                return new Promise((resolve, reject) => {
+
+                    axios.get(API_URL + "/user/" + currentUser.user.id + "/trajet/" + idTrajet)
+                        .then(resp => {
+                            history.push("/mes-trajets");
+                            resolve();
+                        })
+                        .catch(err => reject())
+
+                }).catch(() => console.log('Oops errors!'));
+            },
+
+            onCancel() { },
         });
     };
 
@@ -111,12 +117,11 @@ function RidesList(props) {
                         <h2>Liste des trajets :</h2>
                         <Link to="/trajets/ajout" className='btn btn-primary'>Nouveau trajet</Link>
                     </div>
-                    {(data.length === 0) ?<p>Liste vide</p>:null}
+                    {(data.length === 0) ? <p>Liste vide</p> : null}
                     {
                         data.map((item, index) => {
 
-                            if(currentUser.user.id === item.id)
-                                return(null);
+                            if (currentUser.user.id === item.id) return (null);
                             else {
                                 return (
                                     <div className="col-md-4" key={index}>
@@ -131,66 +136,66 @@ function RidesList(props) {
                                                         <span>{item.villeArrive}</span>
                                                     </h6>
                                                     <div className="time d-flex flex-row align-items-center justify-content-between mt-3">
-        
+
                                                         <div className="d-flex align-items-center">
                                                             <i className="fa fa-clock-o clock"></i>
                                                             <span className="hour ml-1">
                                                                 {item.dateDepart}
                                                             </span>
                                                         </div>
-        
+
                                                         <div>
                                                             <span className="font-weight-bold border p-1">
                                                                 {item.prix + " DH"}
                                                             </span>
                                                         </div>
                                                     </div>
-        
+
                                                 </div>
                                                 <div className="second d-flex flex-row mt-2">
                                                     <div className="image mr-3">
                                                         <img src="https://i.imgur.com/0LKZQYM.jpg" alt="driver-avatar" className="rounded-circle" width="60" />
                                                     </div>
-        
+
                                                     <div className="">
-        
+
                                                         <div className="d-flex flex-row mb-1">
-        
+
                                                             <span>{item.conducteur}</span>
-        
+
                                                             <div className="ratings">
-        
+
                                                                 <RiStarSFill />
                                                                 <RiStarSFill />
                                                                 <RiStarSFill />
                                                                 <RiStarSFill />
                                                                 <RiStarSLine />
-        
+
                                                             </div>
-        
+
                                                         </div>
-        
+
                                                         <div>
-        
+
                                                             <button className="btn btn-outline-dark btn-sm px-2">+ Suivi</button>
                                                             <button className="btn btn-outline-dark btn-sm mx-1">Profil</button>
-        
+
                                                         </div>
-        
+
                                                     </div>
-        
+
                                                 </div>
-        
+
                                                 <hr className="line-color" />
-        
+
                                                 <div className='d-flex justify-content-between'>
                                                     <h6>{"Voiture : DACIA"}</h6>
                                                     <h6>{item.nbPlace + " places"}</h6>
                                                 </div>
                                                 <div className="third mt-4">
-                                                    <button 
-                                                        className="btn btn-success btn-block" 
-                                                        onClick={()=>showPromiseConfirm(item.id)}
+                                                    <button
+                                                        className="btn btn-success btn-block"
+                                                        onClick={() => showPromiseConfirm(item.id)}
                                                     >
                                                         <i className="fa fa-clock-o"></i>
                                                         Envoyer une demande

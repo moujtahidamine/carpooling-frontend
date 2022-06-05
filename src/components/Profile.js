@@ -22,7 +22,7 @@ const Profile = () => {
         setLoading(false);
     })
     .catch(err => setLoading(false))
-  }, []);
+  }, [currentUser.user.id]);
 
   const onSubmit = (data) => {
 
