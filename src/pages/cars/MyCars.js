@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import { API_URL } from '../../constants';
@@ -9,11 +10,13 @@ import car1 from "../../assets/images/car1.JPG";
 
 function MyCars(props) {
 
+    const { user: currentUser } = useSelector((state) => state.auth);
+
     const [cars, setCars] = useState([]);
-    const [isLoading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(API_URL + "/cars")
+        axios.get(API_URL + "/cars/user/"+currentUser.user.id)
             .then(resp => {
                 setCars(resp.data);
                 setLoading(false);
@@ -23,7 +26,7 @@ function MyCars(props) {
             })
     }, []);
 
-    if(isLoading) return <div className='container'>Chargement...</div>;
+    if(loading) return "Chargement...";
 
     return (
         <div className="container">

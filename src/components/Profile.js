@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -10,6 +10,19 @@ const Profile = () => {
   const { register, handleSubmit } = useForm();
 
   const { user: currentUser } = useSelector((state) => state.auth);
+
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(()=>{
+    axios.get(API_URL+"/cars/user/" + currentUser.user.id)
+    .then(resp => {
+        console.log(resp);
+        setCars(resp.data);
+        setLoading(false);
+    })
+    .catch(err => setLoading(false))
+  }, []);
 
   const onSubmit = (data) => {
 
@@ -31,8 +44,7 @@ const Profile = () => {
     return <Redirect to="/login" />;
   }
 
-  console.log("currentUser", currentUser);
-
+  if(loading) return "Chargement...";
   return (
     <div className="container rounded bg-white mt-5 mb-5">
       <div className="row">
@@ -90,10 +102,10 @@ const Profile = () => {
             <div className="d-flex flex-column">
 
               {
-                currentUser.user.cars.map(car => (
+                cars.map(car => (
                   <div className="" key={car.id}>
                     <span>
-                      {car.marque +" | "+car.matricule +" | "+car.etatVoiture}
+                      {car.marque +" | "+car.matricule}
                     </span>                  
                   </div>
                 ))

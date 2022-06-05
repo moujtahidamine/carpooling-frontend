@@ -70,7 +70,8 @@ const demandes = [
     nom:"Ali OUY"
   },
   
-]
+];
+
 function MyRideDetail(props) {
 
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -82,6 +83,7 @@ function MyRideDetail(props) {
 
     axios.get(API_URL + "/trajets/" + id)
     .then(resp => {
+      console.log(resp.data);
       setData(resp.data);
       setLoading(false);
     })
@@ -115,23 +117,23 @@ function MyRideDetail(props) {
                   <div className="card p-4 mt-3" style={{ width: "100%" }}>
                     <div className="first">
                       <h6 className="heading d-flex justify-content-between">
-                        <span>{data.villeDepart}</span>
+                        <span>{data.trajet.villeDepart}</span>
                         <span>
                           <FaArrowRight />
                         </span>
-                        <span>{data.villeArrive}</span>
+                        <span>{data.trajet.villeArrive}</span>
                       </h6>
                       <div className="time d-flex flex-row align-items-center justify-content-between mt-3">
 
                         <div className="d-flex align-items-center">
                           <i className="fa fa-clock-o clock"></i>
                           <span className="hour ml-1">
-                            {data.dateDepart}
+                            {data.trajet.dateDepart}
                           </span>
                         </div>
 
                         <div>
-                          <span className="font-weight-bold">{data.prix + " DH"}</span>
+                          <span className="font-weight-bold">{data.trajet.prix + " DH"}</span>
                         </div>
                       </div>
 
@@ -143,8 +145,8 @@ function MyRideDetail(props) {
                     <hr className="line-color" />
 
                     <div className='d-flex justify-content-between'>
-                      <h6>{"Voiture : DACIA"}</h6>
-                      <h6>{data.nbPlace + " places"}</h6>
+                      <h6>{"Voiture : "+data.car.marque+" - "+data.car.matricule}</h6>
+                      <h6>{data.car.nbPlace + " places"}</h6>
                     </div>
 
                     <hr className="line-color" />
