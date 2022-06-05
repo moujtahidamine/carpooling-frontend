@@ -52,7 +52,7 @@ const App = () => {
               </Link>
             </li>
 
-            {currentUser && currentUser.user && currentUser.user.isAdmin && (
+            {currentUser && currentUser.user && currentUser.user.isAdmin === '1' && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
                   Administration
