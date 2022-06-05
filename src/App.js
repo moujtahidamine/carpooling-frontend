@@ -28,7 +28,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 const App = () => {
 
-  const [showAdminBoard,] = useState(false);
+  const [showAdminBoard, ] = useState(false);
 
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -36,6 +36,8 @@ const App = () => {
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
+
+  console.log(currentUser.user.isAdmin === '0');
 
   return (
     <Router history={history}>
@@ -51,7 +53,7 @@ const App = () => {
               </Link>
             </li>
 
-            {showAdminBoard && (
+            {currentUser.user.isAdmin && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
                   Administration

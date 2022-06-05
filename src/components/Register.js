@@ -24,7 +24,8 @@ const Register = () => {
       email: data.email,
       password: data.password,
       password_confirmation: data.passwordConfirmation,
-      name: data.name
+      name: data.name,
+      isAdmin: false,
     }
 
     dispatch(signup(request))
