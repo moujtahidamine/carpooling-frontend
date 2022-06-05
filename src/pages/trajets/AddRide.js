@@ -12,16 +12,17 @@ const AddRide = () => {
     const { register, handleSubmit } = useForm();
     const { user: currentUser } = useSelector((state) => state.auth);
     const history = useHistory();
+
     const onSubmit = (data) => {
 
         const request = {
-            // userId: currentUser.user.id,
+            user_id: currentUser.user.id,
             villeDepart: data.villeDepart,
             villeArrive: data.villeArrive,
             dateDepart: data.dateDepart,
             prix: Number(data.prix),
             nbPlace: Number(data.nbPlace),
-
+            userId: currentUser.user.id
         }
 
         console.log("request", request);
@@ -43,7 +44,7 @@ const AddRide = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
 
-                    <div className="col-md-6">
+                    <div className="col-md-6 offset-3">
                         <div className="p-3 py-5">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="text-right">Nouveau trajet</h2>
@@ -59,6 +60,21 @@ const AddRide = () => {
                                         defaultValue={currentUser.user && currentUser.user.name}
                                         readOnly
                                     />
+                                </div>
+
+                                <div className="col-md-12">
+                                    <label className="labels">Prix (DH)</label>
+                                    <input type="number" {...register("prix")} min={0} className="form-control" placeholder="" defaultValue="" />
+                                </div>
+                                <div className="col-md-12">
+                                    <label className="labels">Nombre de place</label>
+                                    <input type="number" {...register("nbPlace")} min={0} className="form-control" placeholder="" defaultValue="" />
+                                </div>
+
+
+                                <div className="col-md-12">
+                                    <label className="labels">Date de depart</label>
+                                    <input type="text" {...register("dateDepart")} className="form-control" placeholder="JJ/MM/AAAA" defaultValue="" />
                                 </div>
 
                                 <div className="col-md-12">
@@ -87,39 +103,22 @@ const AddRide = () => {
                                         }
                                     </select>
                                 </div>
+
+                            </div>
+
+                            <div className="row mt-4">
+                                <div className="col-md-12">
+                                    <div className="text-left">
+                                        <button className="btn btn-success profile-button" style={{ width: "100%" }} type="submit">
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        <div className="p-3 py-5">
 
-                            <div className="d-flex justify-content-between mb-3">
-                                <h2 style={{ color: '#fff' }}>.</h2>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <label className="labels">Date de depart</label>
-                                    <input type="text" {...register("dateDepart")} className="form-control" placeholder="JJ/MM/AAAA" defaultValue="" />
-                                </div>
-                                <div className="col-md-12">
-                                    <label className="labels">Prix (DH)</label>
-                                    <input type="number" {...register("prix")} min={0} className="form-control" placeholder="" defaultValue="" />
-                                </div>
-                                <div className="col-md-12">
-                                    <label className="labels">Nombre de place</label>
-                                    <input type="number" {...register("nbPlace")} min={0} className="form-control" placeholder="" defaultValue="" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12">
-                        <div className="px-3 text-left">
-                            <button className="btn btn-primary profile-button" style={{ width: "200px" }} type="submit">
-                                Enregistrer
-                            </button>
-                        </div>
-                    </div>
 
                 </div>
 

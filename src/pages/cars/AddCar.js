@@ -2,7 +2,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { cities } from "../../data";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../constants";
@@ -34,11 +33,11 @@ const AddCar = () => {
     }
 
     return (
-        <div className="container rounded bg-white mt-5 mb-5">
+        <div className="container rounded bg-white my-5 mb-5">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
 
-                    <div className="col-md-6">
+                    <div className="col-md-6 offset-3 border">
                         <div className="p-3 py-5">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="text-right">Nouvelle voiture</h2>
@@ -46,74 +45,50 @@ const AddCar = () => {
                             <div className="row mt-3">
 
                                 <div className="col-md-12">
+                                    <label className="labels">Image</label>
+                                    <input 
+                                        type="file" 
+                                        accept="image/png image/jpeg" 
+                                        onChange={(e)=>console.log("File", e.target)} 
+                                    />
+                                </div>
+
+                                <div className="col-md-12">
                                     <label className="labels">Model</label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         placeholder=""
-                                        defaultValue={currentUser.user && currentUser.user.name}
-                                        readOnly
+                                        {...register("model")}
                                     />
                                 </div>
 
                                 <div className="col-md-12">
-                                    <label className="labels">Ville de depart</label>
-                                    <select type="text" {...register("villeDepart")} className="form-control" placeholder="" defaultValue="">
-                                        <option value="" />
-                                        {
-                                            cities.map(city => (
-                                                <option key={city.id}>
-                                                    {city.ville}
-                                                </option>
-                                            ))
-                                        }
-                                    </select>
+                                    <label className="labels">Nombre de place maximal</label>
+                                    <input 
+                                        type="number" 
+                                        {...register("nbPlace")} 
+                                        min={0} max={10}
+                                        className="form-control" 
+                                        placeholder="" 
+                                        defaultValue="" 
+                                    />
                                 </div>
-                                <div className="col-md-12">
-                                    <label className="labels">Ville d'arrive</label>
-                                    <select type="text" {...register("villeArrive")} className="form-control" placeholder="" defaultValue="">
-                                        <option value="" />
-                                        {
-                                            cities.map(city => (
-                                                <option key={city.id}>
-                                                    {city.ville}
-                                                </option>
-                                            ))
-                                        }
-                                    </select>
+
+                                <div className="col-md-12 mt-4">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-success profile-button form-control" 
+                                        style={{ width: "100%" }} 
+                                    >
+                                        Enregistrer
+                                    </button>
                                 </div>
+
                             </div>
 
                         </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="p-3 py-5">
-
-                            <div className="d-flex justify-content-between mb-3">
-                                <h2 style={{ color: '#fff' }}>.</h2>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <label className="labels">Date de depart</label>
-                                    <input type="text" {...register("dateDepart")} className="form-control" placeholder="JJ/MM/AAAA" defaultValue="" />
-                                </div>
-                                <div className="col-md-12">
-                                    <label className="labels">Prix (DH)</label>
-                                    <input type="number" {...register("prix")} min={0} className="form-control" placeholder="" defaultValue="" />
-                                </div>
-                                <div className="col-md-12">
-                                    <label className="labels">Nombre de place</label>
-                                    <input type="number" {...register("nbPlace")} min={0} className="form-control" placeholder="" defaultValue="" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12">
-                        <div className="px-3 text-left">
-                            <button className="btn btn-primary profile-button" style={{ width: "200px" }} type="submit">
-                                Enregistrer
-                            </button>
-                        </div>
+                    
                     </div>
 
                 </div>

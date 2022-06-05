@@ -10,7 +10,7 @@ import { API_URL } from "../../constants";
 import { FaArrowRight } from "react-icons/fa";
 import { RiStarSLine, RiStarSFill } from "react-icons/ri";
 
-import { Modal, Space } from 'antd';
+import { Modal, } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const {confirm} = Modal;
@@ -60,19 +60,11 @@ function RidesList(props) {
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
-
-    const showModal = () => {
-        setIsModalVisible(true);
-        console.log("clicking");
-        console.log(isModalVisible)
-    };
-
     const showPromiseConfirm = () => {
         confirm({
           title: 'Voulez-vous confirmer la réservation?',
           icon: <ExclamationCircleOutlined />,
-          content: 'Lorsque vous confirmez votre demande, ',
+          content: 'Lorsque vous confirmez votre demande, bla bla bla bla',
       
           onOk() {
             return new Promise((resolve, reject) => {
@@ -101,7 +93,7 @@ function RidesList(props) {
         return <Redirect to="/login" />;
     }
 
-    if (isLoading) return "Chargement..."
+    if (isLoading) return "Chargement...";
     return (
         <div>
 
@@ -115,86 +107,94 @@ function RidesList(props) {
                         <h2>Liste des trajets :</h2>
                         <Link to="/trajets/ajout" className='btn btn-primary'>Nouveau trajet</Link>
                     </div>
+                    {(data.length === 0) ?<p>Liste vide</p>:null}
                     {
-                        data.map((item, index) => (
-                            <div className="col-md-4" key={index}>
-                                <div className="mt-2 d-flex">
-                                    <div className="card p-4 mt-3" style={{ width: "100%" }}>
-                                        <div className="first">
-                                            <h6 className="heading d-flex justify-content-between">
-                                                <span>{item.villeDepart}</span>
-                                                <span>
-                                                    <FaArrowRight />
-                                                </span>
-                                                <span>{item.villeArrive}</span>
-                                            </h6>
-                                            <div className="time d-flex flex-row align-items-center justify-content-between mt-3">
+                        data.map((item, index) => {
 
-                                                <div className="d-flex align-items-center">
-                                                    <i className="fa fa-clock-o clock"></i>
-                                                    <span className="hour ml-1">
-                                                        {item.dateDepart}
-                                                    </span>
-                                                </div>
-
-                                                <div>
-                                                    <span className="font-weight-bold border p-1">
-                                                        {item.prix + " DH"}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div className="second d-flex flex-row mt-2">
-                                            <div className="image mr-3">
-                                                <img src="https://i.imgur.com/0LKZQYM.jpg" alt="driver-avatar" className="rounded-circle" width="60" />
-                                            </div>
-
-                                            <div className="">
-
-                                                <div className="d-flex flex-row mb-1">
-
-                                                    <span>{item.conducteur}</span>
-
-                                                    <div className="ratings">
-
-                                                        <RiStarSFill />
-                                                        <RiStarSFill />
-                                                        <RiStarSFill />
-                                                        <RiStarSFill />
-                                                        <RiStarSLine />
-
+                            if(currentUser.user.id === item.id)
+                                return(null);
+                            else {
+                                return (
+                                    <div className="col-md-4" key={index}>
+                                        <div className="mt-2 d-flex">
+                                            <div className="card p-4 mt-3" style={{ width: "100%" }}>
+                                                <div className="first">
+                                                    <h6 className="heading d-flex justify-content-between">
+                                                        <span>{item.villeDepart}</span>
+                                                        <span>
+                                                            <FaArrowRight />
+                                                        </span>
+                                                        <span>{item.villeArrive}</span>
+                                                    </h6>
+                                                    <div className="time d-flex flex-row align-items-center justify-content-between mt-3">
+        
+                                                        <div className="d-flex align-items-center">
+                                                            <i className="fa fa-clock-o clock"></i>
+                                                            <span className="hour ml-1">
+                                                                {item.dateDepart}
+                                                            </span>
+                                                        </div>
+        
+                                                        <div>
+                                                            <span className="font-weight-bold border p-1">
+                                                                {item.prix + " DH"}
+                                                            </span>
+                                                        </div>
                                                     </div>
-
+        
                                                 </div>
-
-                                                <div>
-
-                                                    <button className="btn btn-outline-dark btn-sm px-2">+ Suivi</button>
-                                                    <button className="btn btn-outline-dark btn-sm mx-1">Profil</button>
-
+                                                <div className="second d-flex flex-row mt-2">
+                                                    <div className="image mr-3">
+                                                        <img src="https://i.imgur.com/0LKZQYM.jpg" alt="driver-avatar" className="rounded-circle" width="60" />
+                                                    </div>
+        
+                                                    <div className="">
+        
+                                                        <div className="d-flex flex-row mb-1">
+        
+                                                            <span>{item.conducteur}</span>
+        
+                                                            <div className="ratings">
+        
+                                                                <RiStarSFill />
+                                                                <RiStarSFill />
+                                                                <RiStarSFill />
+                                                                <RiStarSFill />
+                                                                <RiStarSLine />
+        
+                                                            </div>
+        
+                                                        </div>
+        
+                                                        <div>
+        
+                                                            <button className="btn btn-outline-dark btn-sm px-2">+ Suivi</button>
+                                                            <button className="btn btn-outline-dark btn-sm mx-1">Profil</button>
+        
+                                                        </div>
+        
+                                                    </div>
+        
                                                 </div>
-
+        
+                                                <hr className="line-color" />
+        
+                                                <div className='d-flex justify-content-between'>
+                                                    <h6>{"Voiture : DACIA"}</h6>
+                                                    <h6>{item.nbPlace + " places"}</h6>
+                                                </div>
+                                                <div className="third mt-4">
+                                                    <button className="btn btn-success btn-block" onClick={showPromiseConfirm}>
+                                                        <i className="fa fa-clock-o"></i>
+                                                        Envoyer une demande
+                                                    </button>
+                                                </div>
                                             </div>
-
-                                        </div>
-
-                                        <hr className="line-color" />
-
-                                        <div className='d-flex justify-content-between'>
-                                            <h6>{"Voiture : DACIA"}</h6>
-                                            <h6>{item.nbPlace + " places"}</h6>
-                                        </div>
-                                        <div className="third mt-4">
-                                            <button className="btn btn-success btn-block" onClick={showPromiseConfirm}>
-                                                <i className="fa fa-clock-o"></i>
-                                                Envoyer une demande
-                                            </button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        ))
+                                )
+                            }
+                        })
                     }
 
                 </div>
