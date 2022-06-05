@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Router, Switch, Route, Link } from "react-router-dom";
 
@@ -28,7 +28,6 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 const App = () => {
 
-  const [showAdminBoard, ] = useState(false);
 
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ const App = () => {
     dispatch(logout());
   }, [dispatch]);
 
-  console.log(currentUser.user.isAdmin === '0');
+  // console.log(currentUser.user.isAdmin === '0');
 
   return (
     <Router history={history}>
@@ -53,7 +52,7 @@ const App = () => {
               </Link>
             </li>
 
-            {currentUser.user.isAdmin && (
+            {currentUser && currentUser.user && currentUser.user.isAdmin && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
                   Administration

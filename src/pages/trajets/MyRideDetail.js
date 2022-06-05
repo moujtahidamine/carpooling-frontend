@@ -14,69 +14,6 @@ import { useHistory } from 'react-router-dom';
 
 const { confirm } = Modal;
 
-// const trajets = [
-//     {
-//         id:1,
-//         villeDepart:"Kenitra",
-//         villeArrive:"Rabat",
-//         dateDepart:"26/05/2022",
-//         prix:30,
-//         nbPlace:3,
-//         conducteur:"Achbari Salma",
-//     },
-//     {
-//         id:2,
-//         villeDepart:"Sale",
-//         villeArrive:"Fes",
-//         dateDepart:"26/05/2022",
-//         prix:30,
-//         nbPlace:3,
-//         conducteur:"Eddissi Saad",
-//     },
-//     {
-//         id:3,
-//         villeDepart:"Tanger",
-//         villeArrive:"Casablanca",
-//         dateDepart:"22/05/2022",
-//         prix:30,
-//         nbPlace:3,
-//         conducteur:"Amghar Ayoub",
-//     },
-//     {
-//         id:4,
-//         villeDepart:"Kenitra",
-//         villeArrive:"Tanger",
-//         dateDepart:"20/05/2022",
-//         prix:30,
-//         nbPlace:3,
-//         conducteur:"Benmoussa Dounia",
-//     },
-// ];
-
-const demandes = [
-  {
-    id: 1,
-    contact: "+212 676 77 88 91",
-    nom: "Ali HJK"
-  },
-  {
-    id: 2,
-    contact: "+212 698 34 21 22",
-    nom: "Samira ABC"
-  },
-  {
-    id: 3,
-    contact: "+212 661 31 88 91",
-    nom: "Ahmad XYZ"
-  },
-  {
-    id: 4,
-    contact: "+212 645 77 12 91",
-    nom: "Ali OUY"
-  },
-
-];
-
 function MyRideDetail(props) {
 
   const { user: currentUser } = useSelector((state) => state.auth);
