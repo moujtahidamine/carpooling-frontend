@@ -60,7 +60,7 @@ function RidesList(props) {
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
-    const showPromiseConfirm = () => {
+    const showPromiseConfirm = (idTrajet) => {
         confirm({
           title: 'Voulez-vous confirmer la réservation?',
           icon: <ExclamationCircleOutlined />,
@@ -68,7 +68,11 @@ function RidesList(props) {
       
           onOk() {
             return new Promise((resolve, reject) => {
-              setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+            
+              axios.get(API_URL+"/user/"+currentUser.user.id+"/trajet/"+idTrajet)
+              .then(resp => resolve())
+              .catch(err => reject())
+
             }).catch(() => console.log('Oops errors!'));
           },
       
@@ -184,7 +188,10 @@ function RidesList(props) {
                                                     <h6>{item.nbPlace + " places"}</h6>
                                                 </div>
                                                 <div className="third mt-4">
-                                                    <button className="btn btn-success btn-block" onClick={showPromiseConfirm}>
+                                                    <button 
+                                                        className="btn btn-success btn-block" 
+                                                        onClick={()=>showPromiseConfirm(item.id)}
+                                                    >
                                                         <i className="fa fa-clock-o"></i>
                                                         Envoyer une demande
                                                     </button>

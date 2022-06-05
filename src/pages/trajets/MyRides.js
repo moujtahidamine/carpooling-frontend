@@ -126,7 +126,7 @@ function MyRides(props) {
                     <div className="third mt-4">
                       <Link to={"/mes-trajets/"+item.id} className="btn btn-success btn-block">
                         <i className="fa fa-clock-o"></i>
-                        Afficher plus de detail
+                          Afficher plus de détail
                       </Link>
                     </div>
                   </div>

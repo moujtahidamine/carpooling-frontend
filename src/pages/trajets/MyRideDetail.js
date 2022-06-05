@@ -8,6 +8,11 @@ import axios from "axios";
 import { API_URL } from "../../constants";
 
 import { FaArrowRight, FaUser, FaMobileAlt } from "react-icons/fa";
+import { Modal, } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
+
+const {confirm} = Modal;
 
 // const trajets = [
 //     {
@@ -79,6 +84,8 @@ function MyRideDetail(props) {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
+  const history = useHistory()
+
   useEffect(() => {
 
     axios.get(API_URL + "/trajets/" + id)
@@ -93,9 +100,31 @@ function MyRideDetail(props) {
 
   }, [id]);
 
-  const onCancelTrajet = () => {
-    alert("Annulation du trajet Numero "+id);
-  }
+  const showPromiseConfirm = (idTrajet) => {
+    confirm({
+      title: 'Voulez-vous vraiment annuler ce trajet?',
+      icon: <ExclamationCircleOutlined />,
+      content: null,
+  
+      onOk() {
+        return new Promise((resolve, reject) => {
+        
+          axios.delete(API_URL+"/trajets/"+idTrajet)
+          .then(resp => {
+            history.push("/mes-trajets");
+            resolve();
+          })
+          .catch(err => {
+            console.log(err);
+            reject();
+          })
+          
+        }).catch(() => console.log('Oops errors!'));
+      },
+  
+      onCancel() {},
+    });
+};
 
   if (!currentUser) {
     return <Redirect to="/login" />;
@@ -176,7 +205,7 @@ function MyRideDetail(props) {
                     </div>
 
                     <div className="third mt-4">
-                      <button onClick={onCancelTrajet} className="btn btn-success btn-block">
+                      <button onClick={()=>showPromiseConfirm(data.trajet.id)} className="btn btn-success btn-block">
                         <i className="fa fa-clock-o"></i>
                         Annuler le trajet
                       </button>
