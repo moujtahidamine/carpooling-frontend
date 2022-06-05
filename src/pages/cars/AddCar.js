@@ -15,7 +15,12 @@ const AddCar = () => {
     const onSubmit = (data) => {
 
         const request = {
-            
+            user_id : currentUser.user.id,
+
+            marque : data.marque,
+            matricule : data.matricule,
+            nbPlace : Number(data.nbPlace),
+            etatVoiture : data.etatVoiture
         }
 
         console.log("request", request);
@@ -23,7 +28,7 @@ const AddCar = () => {
         axios.post(API_URL + "/cars", request)
             .then(resp => {
                 console.log(resp.data);
-                history.push("/trajets")
+                history.push("/mes-voitures")
             })
             .catch(err => console.log(err))
     }
@@ -37,7 +42,7 @@ const AddCar = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
 
-                    <div className="col-md-6 offset-3 border">
+                    <div className="col-md-8 offset-2 border">
                         <div className="p-3 py-5">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="text-right">Nouvelle voiture</h2>
@@ -45,21 +50,22 @@ const AddCar = () => {
                             <div className="row mt-3">
 
                                 <div className="col-md-12">
-                                    <label className="labels">Image</label>
-                                    <input 
-                                        type="file" 
-                                        accept="image/png image/jpeg" 
-                                        onChange={(e)=>console.log("File", e.target)} 
-                                    />
-                                </div>
-
-                                <div className="col-md-12">
-                                    <label className="labels">Model</label>
+                                    <label className="labels">Marque</label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         placeholder=""
-                                        {...register("model")}
+                                        {...register("marque")}
+                                    />
+                                </div>
+
+                                <div className="col-md-12">
+                                    <label className="labels">Matricule</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder=""
+                                        {...register("matricule")}
                                     />
                                 </div>
 
@@ -68,6 +74,18 @@ const AddCar = () => {
                                     <input 
                                         type="number" 
                                         {...register("nbPlace")} 
+                                        min={0} max={10}
+                                        className="form-control" 
+                                        placeholder="" 
+                                        defaultValue="" 
+                                    />
+                                </div>
+
+                                <div className="col-md-12">
+                                    <label className="labels">Etat du voiture</label>
+                                    <input 
+                                        type="text" 
+                                        {...register("etatVoiture")} 
                                         min={0} max={10}
                                         className="form-control" 
                                         placeholder="" 

@@ -66,7 +66,7 @@ const Profile = () => {
                 <input type="text" {...register("country")} className="form-control" placeholder="" defaultValue="" /></div>
               <div className="col-md-6"><label className="labels">Province</label>
                 <input type="text" {...register("province")} className="form-control" defaultValue="" placeholder="" /></div>
-                
+
             </div>
 
             <div className="row">
@@ -76,7 +76,7 @@ const Profile = () => {
                 </button>
               </div>
             </div>
-            
+
           </form>
           {/* form */}
 
@@ -87,9 +87,17 @@ const Profile = () => {
             <div className="d-flex justify-content-between mb-3">
               <h4 className="text-left">Mes voitures</h4>
             </div>
-            <div className="row">
+            <div className="d-flex flex-column">
 
-              list of cars goes here...
+              {
+                currentUser.user.cars.map(car => (
+                  <div className="" key={car.id}>
+                    <span>
+                      {car.marque +" | "+car.matricule +" | "+car.etatVoiture}
+                    </span>                  
+                  </div>
+                ))
+              }
 
             </div>
           </div>
